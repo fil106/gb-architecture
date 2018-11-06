@@ -1,12 +1,8 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 /** @var \Model\Entity\Product[] $productList */
-$body = function () use ($productList, $path, $context) {
+$body = function () use ($productList, $path) {
     ?>
-    <h1><?= $context ?></h1>
     <table cellpadding="40" cellspacing="0" border="0">
         <tr><td colspan="3" align="center">Наши курсы</td></tr>
         <tr>
