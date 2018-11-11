@@ -14,5 +14,12 @@ $containerBuilder = new ContainerBuilder();
 
 Framework\Registry::addContainer($containerBuilder);
 
-$response = (new Kernel($containerBuilder))->handle($request);
+$receiver = new Receiver();
+$kernel = new Kernel($containerBuilder, $receiver);
+
+$invoker = new Invoker();
+$response = $receiver->process($request);
 $response->send();
+
+// $response = (new Kernel($containerBuilder))->handle($request);
+// $response->send();
