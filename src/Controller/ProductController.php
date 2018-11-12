@@ -53,8 +53,7 @@ class ProductController
     {
         $productList = (new Product())->getAll();
 
-        // Урок 3. Применить паттерн Стратегия
-        $sortBy = $request->query->get('sort'); // Сортировка по цене
+        $sortBy = $request->query->get('sort');
         $sort = new Sort();
 
         switch ($sortBy) {
