@@ -18,7 +18,7 @@ class RegisterRoutes implements ICommand
 
     public function execute()
     {
-        $this->receiver->routeCollection = require __DIR__ . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'routing.php';
+        $this->receiver->routeCollection = require __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'routing.php';
         $this->receiver->containerBuilder->set('route_collection', $this->receiver->routeCollection);
     }
 }

@@ -16,16 +16,16 @@ $containerBuilder = new ContainerBuilder();
 Framework\Registry::addContainer($containerBuilder);
 
 $receiver = new Receiver($request, $containerBuilder);
-//$registerConfigs = new RegisterConfigs($receiver);
+$registerConfigs = new RegisterConfigs($receiver);
 $registerRoutes = new RegisterRoutes($receiver);
 $process = new Process($receiver);
 
 $invoker = new Invoker();
-//$response = $invoker->action($registerConfigs);
+$response = $invoker->action($registerConfigs);
 $response = $invoker->action($registerRoutes);
 $response = $invoker->action($process);
 
-$response->send();
+$receiver->send();
 
 // $response = (new Kernel($containerBuilder))->handle($request);
 // $response->send();
