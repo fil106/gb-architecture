@@ -58,11 +58,11 @@ class ProductController
 
         switch ($sortBy) {
             case 'price':
-                $productList = $sort->sorting( new SortByPrice(), $productList );
+                $productList = $sort->sorting(new SortByPrice(), $productList);
                 break;
             
             case 'name':
-                $productList = $sort->sorting( new SortByName(), $productList );
+                $productList = $sort->sorting(new SortByName(), $productList);
                 break;
         }
 

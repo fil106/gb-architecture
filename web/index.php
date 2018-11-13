@@ -25,7 +25,4 @@ $response = $invoker->action($registerConfigs);
 $response = $invoker->action($registerRoutes);
 $response = $invoker->action($process);
 
-$receiver->send();
-
-// $response = (new Kernel($containerBuilder))->handle($request);
-// $response->send();
+$response->send();

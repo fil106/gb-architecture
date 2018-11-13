@@ -8,6 +8,6 @@ class Invoker
 {
     public function action(ICommand $command)
     {
-        $command->execute();
+        return $command->execute();
     }
 }
