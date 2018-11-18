@@ -5,11 +5,8 @@ declare(strict_types = 1);
 namespace Controller;
 
 use Framework\Render;
-use Service\Order\Order;
+use Service\Order\Basket;
 use Service\Product\Product;
-use Sorting\Sort;
-use Sorting\SortByPrice;
-use Sorting\SortByName;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -26,18 +23,19 @@ class ProductController
      */
     public function infoAction(Request $request, $id): Response
     {
-        $product = new Product();
+        $basket = (new Basket($request->getSession()));
+
         if ($request->isMethod(Request::METHOD_POST)) {
-            (new Order($request->getSession()))->addProduct((int)$request->request->get('product'));
+            $basket->addProduct((int)$request->request->get('product'));
         }
 
-        $productInfo = $product->getOne((int)$id);
+        $productInfo = (new Product())->getInfo((int)$id);
 
         if ($productInfo === null) {
             return $this->render('error404.html.php');
         }
 
-        $isInBasket = (new Order($request->getSession()))->isProductInBasket($productInfo->getId());
+        $isInBasket = $basket->isProductInBasket($productInfo->getId());
 
         return $this->render('product/info.html.php', ['productInfo' => $productInfo, 'isInBasket' => $isInBasket]);
     }
@@ -53,18 +51,9 @@ class ProductController
     {
         $productList = (new Product())->getAll();
 
-        $sortBy = $request->query->get('sort');
-        $sort = new Sort();
-
-        switch ($sortBy) {
-            case 'price':
-                $productList = $sort->sorting(new SortByPrice(), $productList);
-                break;
-            
-            case 'name':
-                $productList = $sort->sorting(new SortByName(), $productList);
-                break;
-        }
+        // Применить паттерн Стратегия
+        // $request->query->get('price'); // Сортировка по цене
+        // $request->query->get('name'); // Сортировка по имени
 
         return $this->render('product/list.html.php', ['productList' => $productList]);
     }
