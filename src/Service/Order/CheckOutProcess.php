@@ -10,7 +10,7 @@ class CheckOutProcess
     private $billing;
     private $security;
     private $communication;
-    private $productsIInfo;
+    private $productsInfo;
 
     public function __construct(BasketBuilder $builder)
     {
@@ -24,7 +24,7 @@ class CheckOutProcess
     public function run()
     {
         $totalPrice = 0;
-        foreach ($this->getProductsInfo() as $product) {
+        foreach ($this->productsInfo as $product) {
             $totalPrice += $product->getPrice();
         }
 

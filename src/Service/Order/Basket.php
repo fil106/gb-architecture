@@ -97,37 +97,13 @@ class Basket
 
         $builder = (new BasketBuilder())
             ->setSession($this->session)
+            ->setBilling($billing)
+            ->setDiscount($discount)
+            ->setCommunication($communication)
+            ->setSecurity($security)
+            ->setProductsInfo($this->getProductsInfo())
             ->build()
             ->run();
-    }
-
-    /**
-     * Проведение всех этапов заказа
-     *
-     * @param IDiscount $discount,
-     * @param IBilling $billing,
-     * @param ISecurity $security,
-     * @param ICommunication $communication
-     * @return void
-     */
-    public function checkoutProcess(
-        IDiscount $discount,
-        IBilling $billing,
-        ISecurity $security,
-        ICommunication $communication
-    ): void {
-        $totalPrice = 0;
-        foreach ($this->getProductsInfo() as $product) {
-            $totalPrice += $product->getPrice();
-        }
-
-        $discount = $discount->getDiscount();
-        $totalPrice = $totalPrice - $totalPrice / 100 * $discount;
-
-        $billing->pay($totalPrice);
-
-        $user = $security->getUser();
-        $communication->process($user, 'checkout_template');
     }
 
     /**

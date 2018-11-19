@@ -15,10 +15,45 @@ class BasketBuilder
 {
     private const BASKET_DATA_KEY = 'basket';
     private $session;
+    private $billing;
+    private $discount;
+    private $communication;
+    private $security;
+    private $productsInfo;
 
-    public function setSession(SessionInterface $session): Builder
+    public function setSession(SessionInterface $session): BasketBuilder
     {
         $this->session = $session;
+        return $this;
+    }
+
+    public function setBilling(Card $card): BasketBuilder
+    {
+        $this->billing = $card;
+        return $this;
+    }
+
+    public function setDiscount(NullObject $discount): BasketBuilder
+    {
+        $this->discount = $discount;
+        return $this;
+    }
+
+    public function setCommunication(Email $email): BasketBuilder
+    {
+        $this->communication = $email;
+        return $this;
+    }
+
+    public function setSecurity(Security $security): BasketBuilder
+    {
+        $this->security = $security;
+        return $this;
+    }
+
+    public function setProductsInfo(array $product): BasketBuilder
+    {
+        $this->productsInfo = $product;
         return $this;
     }
 
@@ -29,41 +64,30 @@ class BasketBuilder
 
     public function getDiscount(): NullObject
     {
-        return new NullObject();
+        return $this->discount;
     }
 
     public function getBilling(): Card
     {
-        return new Card();
+        return $this->billing;
     }
 
     public function getCommunication(): Email
     {
-        return new Email();
+        return $this->communication;
     }
 
     public function getSecurity(): Security
     {
-        return new Security($this->session);
+        return $this->security;
     }
 
     public function getProductsInfo(): array
     {
-        $productIds = $this->getProductIds();
-        return $this->getProductRepository()->search($productIds);
+        return $this->productsInfo;
     }
 
-    protected function getProductRepository(): Model\Repository\Product
-    {
-        return new Model\Repository\Product();
-    }
-
-    private function getProductIds(): array
-    {
-        return $this->session->get(static::BASKET_DATA_KEY, []);
-    }
-
-    public function build(): BasketBuilder
+    public function build(): CheckOutProcess
 	{
 		return new CheckOutProcess($this);
 	}
