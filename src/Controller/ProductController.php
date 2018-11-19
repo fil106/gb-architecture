@@ -9,6 +9,9 @@ use Service\Order\Basket;
 use Service\Product\Product;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sorting\Sort;
+use Sorting\SortByName;
+use Sorting\SortByPrice;
 
 class ProductController
 {
@@ -52,8 +55,18 @@ class ProductController
         $productList = (new Product())->getAll();
 
         // Применить паттерн Стратегия
-        // $request->query->get('price'); // Сортировка по цене
-        // $request->query->get('name'); // Сортировка по имени
+        $sortBy = $request->query->get('sort');
+
+        $sort = new Sort();
+
+        switch ($sortBy) {
+            case 'price':
+                $productList = $sort->sorting(new SortByPrice(), $productList);
+                break;
+            case 'name':
+                $productList = $sort->sorting(new SortByName(), $productList);
+                break;
+        }
 
         return $this->render('product/list.html.php', ['productList' => $productList]);
     }

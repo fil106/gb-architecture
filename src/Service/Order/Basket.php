@@ -82,19 +82,20 @@ class Basket
      */
     public function checkout(): void
     {
-        // // Здесь должна быть некоторая логика выбора способа платежа
-        // $billing = new Card();
+        // Здесь должна быть некоторая логика выбора способа платежа
+        $billing = new Card();
 
-        // // Здесь должна быть некоторая логика получения информации о скидки пользователя
-        // $discount = new NullObject();
+        // Здесь должна быть некоторая логика получения информации о скидки пользователя
+        $discount = new NullObject();
 
-        // // Здесь должна быть некоторая логика получения способа уведомления пользователя о покупке
-        // $communication = new Email();
+        // Здесь должна быть некоторая логика получения способа уведомления пользователя о покупке
+        $communication = new Email();
 
-        // $security = new Security($this->session);
+        $security = new Security($this->session);
 
         // $this->checkoutProcess($discount, $billing, $security, $communication);
-        (new BasketBuilder())
+
+        $builder = (new BasketBuilder())
             ->setSession($this->session)
             ->build()
             ->run();
