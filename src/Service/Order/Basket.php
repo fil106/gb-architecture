@@ -95,15 +95,26 @@ class Basket
 
         // $this->checkoutProcess($discount, $billing, $security, $communication);
 
-        $builder = (new BasketBuilder())
-            ->setSession($this->session)
-            ->setBilling($billing)
-            ->setDiscount($discount)
-            ->setCommunication($communication)
-            ->setSecurity($security)
-            ->setProductsInfo($this->getProductsInfo())
-            ->build()
-            ->run();
+        $facade = new Facade(
+            $this->session,
+            $this->getProductsInfo(),
+            $billing,
+            $discount,
+            $communication,
+            $security
+            );
+
+        $facade->checkoutProcess();
+
+//        $builder = (new BasketBuilder())
+//            ->setSession($this->session)
+//            ->setBilling($billing)
+//            ->setDiscount($discount)
+//            ->setCommunication($communication)
+//            ->setSecurity($security)
+//            ->setProductsInfo($this->getProductsInfo())
+//            ->build()
+//            ->run();
     }
 
     /**
