@@ -7,6 +7,7 @@ namespace Controller;
 use Framework\Render;
 use Service\Order\Basket;
 use Service\Product\Product;
+use Service\Vkontakte\Vk;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sorting\Sort;
@@ -26,6 +27,7 @@ class ProductController
      */
     public function infoAction(Request $request, $id): Response
     {
+        $vk = new Vk();
         $basket = (new Basket($request->getSession()));
 
         if ($request->isMethod(Request::METHOD_POST)) {
@@ -40,7 +42,12 @@ class ProductController
 
         $isInBasket = $basket->isProductInBasket($productInfo->getId());
 
-        return $this->render('product/info.html.php', ['productInfo' => $productInfo, 'isInBasket' => $isInBasket]);
+        return $this->render('product/info.html.php', [
+            'productInfo' => $productInfo,
+            'isInBasket' => $isInBasket,
+            'vkHeadScript' => $vk->setHeadScript(),
+            'vkPublishButton' => $vk->getPublishButton()
+        ]);
     }
 
     /**
@@ -68,6 +75,10 @@ class ProductController
                 break;
         }
 
-        return $this->render('product/list.html.php', ['productList' => $productList]);
+        return $this->render('product/list.html.php',
+            [
+                'productList' => $productList,
+            ]
+        );
     }
 }

@@ -3,7 +3,8 @@
 /** @var \Model\Entity\Product $productInfo */
 /** @var bool $isInBasket */
 /** @var \Closure $path */
-$body = function () use ($productInfo, $isInBasket, $path) {
+/** @var Service\Vkontakte\ $vkHeadScript */
+$body = function () use ($productInfo, $isInBasket, $path, $vkPublishButton) {
     echo  '
         Супер ' . $productInfo->getName() . ' курс всего за ' . $productInfo->getPrice() . ' руб.
         <br/><br/>
@@ -19,6 +20,8 @@ $body = function () use ($productInfo, $isInBasket, $path) {
         <br/>
         <a href="' . $path('product_list') . '">Вернуться к списку</a>
     ';
+
+    echo $vkPublishButton;
 };
 
 $renderLayout(
@@ -26,5 +29,6 @@ $renderLayout(
     [
         'title' => 'Курс ' . $productInfo->getName(),
         'body' => $body,
+        'headScript' => $vkHeadScript
     ]
 );

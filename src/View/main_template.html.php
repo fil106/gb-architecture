@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>On-line курсы GeekStars | <?= $title ?? '' ?></title>
+    <?= $headScript ? $headScript : null ?>
 </head>
 <body>
     <table width="100%">
