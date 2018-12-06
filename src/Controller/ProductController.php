@@ -7,7 +7,8 @@ namespace Controller;
 use Framework\Render;
 use Service\Order\Basket;
 use Service\Product\Product;
-use Service\Vkontakte\Vk;
+use Service\SocialNetworks\FacebookNetwork;
+use Service\SocialNetworks\VkNetwork;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sorting\Sort;
@@ -27,7 +28,10 @@ class ProductController
      */
     public function infoAction(Request $request, $id): Response
     {
-        $vk = new Vk();
+        /*SocialNetworks init*/
+        $vk = new VkNetwork();
+        $facebook = new FacebookNetwork();
+
         $basket = (new Basket($request->getSession()));
 
         if ($request->isMethod(Request::METHOD_POST)) {
@@ -45,8 +49,8 @@ class ProductController
         return $this->render('product/info.html.php', [
             'productInfo' => $productInfo,
             'isInBasket' => $isInBasket,
-            'vkHeadScript' => $vk->setHeadScript(),
-            'vkPublishButton' => $vk->getPublishButton()
+            'vk' => $vk,
+            'facebook' => $facebook
         ]);
     }
 

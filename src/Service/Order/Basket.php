@@ -95,17 +95,6 @@ class Basket
 
         // $this->checkoutProcess($discount, $billing, $security, $communication);
 
-        $facade = new Facade(
-            $this->session,
-            $this->getProductsInfo(),
-            $billing,
-            $discount,
-            $communication,
-            $security
-            );
-
-        $facade->checkoutProcess();
-
 //        $builder = (new BasketBuilder())
 //            ->setSession($this->session)
 //            ->setBilling($billing)

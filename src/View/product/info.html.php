@@ -3,8 +3,9 @@
 /** @var \Model\Entity\Product $productInfo */
 /** @var bool $isInBasket */
 /** @var \Closure $path */
-/** @var Service\Vkontakte\ $vkHeadScript */
-$body = function () use ($productInfo, $isInBasket, $path, $vkPublishButton) {
+/** @var Service\SocialNetworks\VkNetwork $vk */
+/** @var Service\SocialNetworks\FacebookNetwork $facebook */
+$body = function () use ($productInfo, $isInBasket, $path, $vk, $facebook) {
     echo  '
         Супер ' . $productInfo->getName() . ' курс всего за ' . $productInfo->getPrice() . ' руб.
         <br/><br/>
@@ -21,7 +22,7 @@ $body = function () use ($productInfo, $isInBasket, $path, $vkPublishButton) {
         <a href="' . $path('product_list') . '">Вернуться к списку</a>
     ';
 
-    echo $vkPublishButton;
+    echo '<div>' . $vk->getButton() . '<br>' . $facebook->getButton() . '</div>';
 };
 
 $renderLayout(
@@ -29,6 +30,6 @@ $renderLayout(
     [
         'title' => 'Курс ' . $productInfo->getName(),
         'body' => $body,
-        'headScript' => $vkHeadScript
+        'headScript' => $vk->getHeadScript() . $facebook->getHeadScript()
     ]
 );
